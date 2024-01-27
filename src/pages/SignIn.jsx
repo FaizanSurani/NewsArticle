@@ -1,18 +1,40 @@
 import React, { useState } from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { toast } from "react-toastify";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const { email, password } = formData;
+  const navigate = useNavigate();
 
   const onInput = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }));
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (userCredential.user) {
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error("Invalid User Credentials");
+    }
   };
 
   return (
@@ -28,7 +50,7 @@ export default function SignIn() {
             />
           </div>
           <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-            <form>
+            <form onSubmit={onSubmit}>
               <input
                 className="mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-black rounded transition ease-in-out"
                 type="email"
@@ -60,7 +82,7 @@ export default function SignIn() {
               </div>
               <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg">
                 <p className="mb-6">
-                  Don't have an Account?{" "}
+                  Don't have an Account?
                   <Link
                     to="/sign-up"
                     className="text-red-600 hover:text-red-700 ml-1 transition duration-200 ease-in-out">
@@ -83,6 +105,7 @@ export default function SignIn() {
               <div className="my-4 before:border-t flex before:flex-1 items-center before:border-gray-300 after:border-gray-300 after:border-t after:flex-1">
                 <p className="text-center font-semibold mx-4">OR</p>
               </div>
+              <OAuth />
             </form>
           </div>
         </div>
