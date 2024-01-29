@@ -49,7 +49,7 @@ export default function Header() {
                 ${
                   pathMatchRoute("/sign-in") && "text-black border-b-blue-700"
                 }`}
-                onClick={() => navigate("/sign-in")}>
+                onClick={() => navigate("/profile")}>
                 {pageState}
               </li>
             </ul>
