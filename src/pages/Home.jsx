@@ -1,36 +1,44 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader";
+import Search from "../components/Search";
+import Results from "../components/Results";
+import { toast } from "react-toastify";
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [newsData, setNewsData] = useState("");
+  const [query, setQuery] = useState("");
 
   const apiKey = "470a464d3e6442a2a6c3d847be2d0ee9";
 
-  // useEffect(() => {
-  //   const fetchNews = async () => {
-  //     const res = await fetch(
-  //       `https://newsapi.org/v2/everything?q=apple&apiKey=${apiKey}`
-  //     );
-  //     const data = await res.json();
-  //     console.log(data.articles[0]);
-  //   };
-  //   fetchNews();
-  //   // setNewsData(data.articles[0]);
-  //   setLoading(false);
-  // }, []);
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(
+          `https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`
+        );
+        const data = await res.json();
+        setNewsData(data.articles);
+      } catch (error) {
+        toast.error("Error in fetching News!");
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (query.trim() !== "") {
+      fetchNews();
+    }
+  }, [query]);
+
   return (
     <>
       <div className="flex justify-center items-center">
-        <input
-          type="search"
-          name="search"
-          id="search"
-          placeholder="Search"
-          className="px-4 py-2 mt-7 mb-2 w-[40%] text-center border-gray-500 hover:border-gray-600 active:border-gray-700 rounded transition duration-150 ease-in-out"
-        />
+        <Search query={query} setQuery={setQuery} />
       </div>
-      <div></div>
+      <div className="text-center">
+        {loading ? <Loader /> : <Results newsData={newsData} />}
+      </div>
     </>
   );
 }
