@@ -18,13 +18,15 @@ export default function Home() {
         `https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`
       );
       const data = await res.json();
-      setNewsData(data.articles[0]);
+      setNewsData(data.articles);
+      console.log(data.articles);
     } catch (error) {
       toast.error("Error in fetching News!");
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     if (query?.trim() !== "") {
       fetchNews(query);
@@ -34,7 +36,7 @@ export default function Home() {
   return (
     <>
       <div className="flex justify-center items-center">
-        <Search query={query} setQuery={setQuery} onSearch={fetchNews} />
+        <Search query={query} setQuery={setQuery} onSearch={newsData} />
       </div>
       <div className="text-center">
         {loading ? <Loader /> : <Results newsData={newsData} />}

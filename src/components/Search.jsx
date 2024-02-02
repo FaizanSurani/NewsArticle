@@ -2,15 +2,14 @@ import React from "react";
 
 export default function Search({ query, setQuery, onSearch }) {
   const handleChange = (e) => {
-    const value = e.target?.value;
-    setQuery(value);
-    onSearch(value);
+    setQuery(e.target.value);
+    onSearch(e.target.value);
   };
 
   return (
     <>
       <input
-        onChange={(e) => handleChange(e.target.value)}
+        onChange={(e) => handleChange(e)}
         type="search"
         name="search"
         id="search"
