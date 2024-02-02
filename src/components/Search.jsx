@@ -3,7 +3,7 @@ import React from "react";
 export default function Search({ query, setQuery, onSearch }) {
   const handleChange = (e) => {
     setQuery(e.target.value);
-    onSearch(e.target.value);
+    // onSearch(e.target.value);
   };
 
   return (
