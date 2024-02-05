@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export default function () {
   const { id } = useParams();
-  const [newsData, setNewsData] = useState({});
+  const [newsData, setNewsData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,6 +14,7 @@ export default function () {
             `https://newsapi.org/v2/everything?q=${id}&apiKey=470a464d3e6442a2a6c3d847be2d0ee9`
           );
           const data = await res.json();
+          console.log(data);
 
           if (data.status === "ok") {
             const foundNews = data.articles.find((news) => news.title === id);
@@ -34,13 +35,13 @@ export default function () {
   return (
     <>
       <div>
-        {/* {newsData && (
+        {newsData && (
           <ul>
             {newsData.map((news) => (
               <li>{news.title}</li>
             ))}
           </ul>
-        )} */}
+        )}
         {newsData.title}
       </div>
     </>
