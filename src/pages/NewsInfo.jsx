@@ -11,18 +11,11 @@ export default function () {
       if (id) {
         try {
           const res = await fetch(
-            `https://newsapi.org/v2/everything?q=${id}&apiKey=470a464d3e6442a2a6c3d847be2d0ee9`
+            `https://newsapi.org/v2/sources?id=${id}&apiKey=470a464d3e6442a2a6c3d847be2d0ee9`
           );
           const data = await res.json();
-          console.log(data);
-
-          if (data.status === "ok") {
-            const foundNews = data.articles.find((news) => news.title === id);
-
-            if (foundNews) {
-              setNewsData(foundNews);
-            }
-          }
+          console.log(data.sources);
+          setNewsData(data.sources);
         } catch (error) {
           toast.error("Couldn't Fetch the data!");
           console.log(error);
@@ -35,14 +28,11 @@ export default function () {
   return (
     <>
       <div>
-        {newsData && (
+        {newsData.map((news) => (
           <ul>
-            {newsData.map((news) => (
-              <li>{news.title}</li>
-            ))}
+            <li>{news.name}</li>
           </ul>
-        )}
-        {newsData.title}
+        ))}
       </div>
     </>
   );

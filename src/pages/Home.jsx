@@ -15,7 +15,7 @@ export default function Home() {
     try {
       setLoading(true);
       const res = await fetch(
-        `https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`
+        `https://newsapi.org/v2/top-headlines?q=${query}&apiKey=${apiKey}`
       );
       const data = await res.json();
       setNewsData(data.articles);
@@ -35,11 +35,13 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex justify-center items-center">
-        <Search query={query} setQuery={setQuery} onSearch={newsData} />
-      </div>
-      <div className="text-center">
-        {loading ? <Loader /> : <Results newsData={newsData} />}
+      <div>
+        <div className="flex justify-center items-center">
+          <Search query={query} setQuery={setQuery} onSearch={newsData} />
+        </div>
+        <div className="text-center">
+          {loading ? <Loader /> : <Results newsData={newsData} />}
+        </div>
       </div>
     </>
   );

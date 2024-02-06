@@ -9,8 +9,13 @@ export default function Results({ newsData }) {
       </p>
       <div className="grid grid-cols-2 md:grid-cols-2">
         {newsData.map((data, index) => (
-          <ul className="border border-gray-600 shadow-lg mb-6 rounded w-full px-7 py-3 hover:shadow-xl">
+          <ul className="border border-gray-600 shadow-lg mb-6 rounded w-full px-7 py-3 hover:shadow-xl flex justify-center items-center flex-wrap bg-gray-900 text-white">
             <Link to={`/newsInfo/${data.source.id}`}>
+              <img
+                src={data.urlToImage}
+                alt=""
+                className="rounded-full mb-6 border border-white"
+              />
               <h3 className="mb-4 font-bold text-2xl">{`Author : ${data.author}`}</h3>
               <li
                 key={index}
