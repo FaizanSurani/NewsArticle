@@ -7,7 +7,6 @@ import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import PrivateRouter from "./components/PrivateRouter";
 import Profile from "./pages/Profile";
-import NewsInfo from "./pages/NewsInfo";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -20,9 +19,6 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<PrivateRouter />}>
             <Route path="/profile" element={<Profile />} />
-          </Route>
-          <Route path="/newsInfo/:id" element={<PrivateRouter />}>
-            <Route path="/newsInfo/:id" element={<NewsInfo />} />
           </Route>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />

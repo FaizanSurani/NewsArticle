@@ -1,12 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 export default function Results({ newsData }) {
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-2 text-center px-7 py-3 my-3 mx-3">
         {newsData?.map((data, index) => (
-          <div className="border border-gray-600 shadow-lg mb-6 rounded w-full hover:shadow-xl bg-gray-900 text-white">
+          <div
+            key={index}
+            className="border border-gray-600 shadow-lg mb-6 rounded w-full hover:shadow-xl bg-gray-900 text-white">
             <div className="flex justify-center items-center mt-4">
               <img
                 src={data.urlToImage}
