@@ -6,12 +6,22 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../Firebase";
 import MyPreference from "../components/MyPreference";
 
+const categoryList = [
+  "General",
+  "Business",
+  "Entertainment",
+  "Health",
+  "Science",
+  "Sports",
+  "Technology",
+];
+
 export default function Profile() {
   const auth = getAuth();
   const navigate = useNavigate();
   const apiKey = "470a464d3e6442a2a6c3d847be2d0ee9";
 
-  const [category, setCategory] = useState("general");
+  const [selectedCategory, setSelectedCategory] = useState("general");
   const [categoryData, setCategoryData] = useState([]);
   const [changeDetail, setChangeDetail] = useState(false);
   const [formData, setFormData] = useState({
@@ -52,14 +62,17 @@ export default function Profile() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=${apiKey}`
+        `https://newsapi.org/v2/top-headlines?country=in&category=${selectedCategory}&apiKey=${apiKey}`
       );
       const data = await response.json();
       setCategoryData(data.articles);
-      console.log(data.articles);
     };
     fetchData();
-  }, [category]);
+  }, [selectedCategory]);
+
+  const handleSelectedCategory = (category) => {
+    setSelectedCategory(category);
+  };
 
   return (
     <>
@@ -111,27 +124,18 @@ export default function Profile() {
           </h1>
           <div>
             <ul className="flex justify-between items-center">
-              <li className="rounded-full ml-3 mr-3 border border-gray-600 px-7 py-2 cursor-pointer hover:border-gray-800 active:border-gray-900 transition duration-150 ease-in-out">
-                General
-              </li>
-              <li className="rounded-full ml-3 mr-3 border border-gray-600 px-7 py-2 cursor-pointer hover:border-gray-800 active:border-gray-900 transition duration-150 ease-in-out">
-                Business
-              </li>
-              <li className="rounded-full ml-3 mr-3 border border-gray-600 px-7 py-2 cursor-pointer hover:border-gray-800 active:border-gray-900 transition duration-150 ease-in-out">
-                Entertainment
-              </li>
-              <li className="rounded-full ml-3 mr-3 border border-gray-600 px-7 py-2 cursor-pointer hover:border-gray-800 active:border-gray-900 transition duration-150 ease-in-out">
-                Health
-              </li>
-              <li className="rounded-full ml-3 mr-3 border border-gray-600 px-7 py-2 cursor-pointer hover:border-gray-800 active:border-gray-900 transition duration-150 ease-in-out">
-                Science
-              </li>
-              <li className="rounded-full ml-3 mr-3 border border-gray-600 px-7 py-2 cursor-pointer hover:border-gray-800 active:border-gray-900 transition duration-150 ease-in-out">
-                Sports
-              </li>
-              <li className="rounded-full ml-3 mr-3 border border-gray-600 px-7 py-2 cursor-pointer hover:border-gray-800 active:border-gray-900 transition duration-150 ease-in-out">
-                Technology
-              </li>
+              {categoryList.map((category) => (
+                <li
+                  key={category}
+                  className={`rounded-full ml-3 mr-3 border border-gray-600 px-7 py-2 cursor-pointer transition duration-150 ease-in-out ${
+                    selectedCategory === category
+                      ? "hover:border-gray-800 active:border-gray-900"
+                      : "hover:border-gray-800"
+                  }`}
+                  onClick={() => handleSelectedCategory(category)}>
+                  {category}
+                </li>
+              ))}
             </ul>
           </div>
           <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
